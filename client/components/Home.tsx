@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getCoursework } from '../apis/coursework'
+import AddCoursework from './AddCoursework'
 
 function Home() {
   const {
@@ -23,7 +24,7 @@ function Home() {
   return (
     <>
       <header className="header">
-        <h1>Home</h1>
+        <AddCoursework />
       </header>
       <section className="main">
         <ol className="list">

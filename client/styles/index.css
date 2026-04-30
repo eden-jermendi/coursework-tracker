@@ -22,3 +22,48 @@ body {
 .list li {
   margin-bottom: 0.75rem;
 }
+
+.form {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 1rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  background: #fff;
+  margin-bottom: 2rem;
+}
+
+.form label {
+  display: block;
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.form input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #cfcfcf;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form button {
+  margin-top: 1rem;
+  padding: 0.6rem 0.9rem;
+  border: 0;
+  border-radius: 4px;
+  background: #222;
+  color: #fff;
+  cursor: pointer;
+}
+
+.form textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.5rem;
+  border: 1px solid #cfcfcf;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
