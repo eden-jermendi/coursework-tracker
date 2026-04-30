@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-// POST /api/v1/courseworks
+// POST /api/v1/coursework
 router.post('/', async (req, res) => {
   const { coursework } = req.body as { coursework: CourseworkData }
 
@@ -38,8 +38,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-// TODO: use checkJwt as middleware
-// PUT /api/v1/courseworks
+// PUT /api/v1/coursework
 router.put('/:id', async (req, res) => {
   const { coursework } = req.body as { coursework: CourseworkData }
 
@@ -62,7 +61,7 @@ router.put('/:id', async (req, res) => {
   }
 })
 
-// DELETE /api/v1/courseworks
+// DELETE /api/v1/coursework
 router.delete('/:id', async (req, res) => {
   const id = Number(req.params.id)
 

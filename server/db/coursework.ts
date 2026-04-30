@@ -16,6 +16,7 @@ export async function addCoursework(
 }
 
 export async function updateCoursework(
+  id: number,
   updatedCoursework: CourseworkData,
   db = connection,
 ): Promise<Coursework> {
