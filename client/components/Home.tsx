@@ -1,33 +1,25 @@
-const coursework = [
-  {
-    title: 'Design a relational DB - (Assignment)',
-    unit: 'Unit 5 - Databases',
-    status: 'Submitted - Awaiting results',
-    priority: 'High',
-    due_date: '2026-04-05',
-    notes: 'Submitted late, Jatin is aware.',
-  },
-  {
-    title: 'JWT challenge polish (for assignment)',
-    unit: 'Unit 6 - JWT and Auth',
-    status: 'Incomplete',
-    priority: 'High',
-    due_date: '2026-05-17',
-    notes:
-      'Read assignment card (WD05) in assessment tracker and polish jwt-auth for submission.',
-  },
-  {
-    title: 'dreamfest polish (for assignment)',
-    unit: 'Unit 6 - JWT and Auth',
-    status: 'Incomplete',
-    priority: 'High',
-    due_date: '2026-05-17',
-    notes:
-      'Read assignment card (CP02) in assessment tracker and polish dreamfest for submission.',
-  },
-]
+import { useQuery } from '@tanstack/react-query'
+import { getCoursework } from '../apis/coursework'
 
 function Home() {
+  const {
+    data: coursework,
+    isPending,
+    error,
+  } = useQuery({ queryKey: ['coursework'], queryFn: () => getCoursework() })
+
+  if (isPending || !coursework) {
+    return (
+      <>
+        <p>Loading...</p>
+        <p>Your patience is appreciated!</p>
+      </>
+    )
+  }
+
+  if (error) {
+    return <p>Error loading coursework</p>
+  }
   return (
     <>
       <header className="header">
