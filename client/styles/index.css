@@ -67,3 +67,35 @@ body {
   box-sizing: border-box;
   resize: vertical;
 }
+
+.delete-button {
+  margin-top: 0.75rem;
+  margin-right: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid #cfcfcf;
+  border-radius: 4px;
+  background: #fff;
+  color: #222;
+  font: inherit;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background: #e8e8e8;
+}
+
+.edit-form {
+  max-width: 380px;
+  padding: 0.85rem;
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.save-button {
+  margin-right: 0.5rem;
+}

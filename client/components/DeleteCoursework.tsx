@@ -19,7 +19,11 @@ function DeleteCoursework({ id }: Props) {
     deleteCourseworkMutation.mutate(id)
   }
 
-  return <button onClick={handleClick}>Delete</button>
+  return (
+    <button className="delete-button" onClick={handleClick}>
+      Delete
+    </button>
+  )
 }
 
 export default DeleteCoursework

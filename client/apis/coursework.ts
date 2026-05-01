@@ -25,3 +25,15 @@ export async function addCoursework(
 export async function deleteCoursework(id: number): Promise<void> {
   await request.delete(`${rootURL}/coursework/${id}`)
 }
+
+// UPDATE
+export async function updateCoursework(
+  id: number,
+  newCoursework: CourseworkData,
+): Promise<Coursework> {
+  const result = await request
+    .put(`${rootURL}/coursework/${id}`)
+    .send({ coursework: newCoursework })
+
+  return result.body.coursework
+}

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getCoursework } from '../apis/coursework'
 import AddCoursework from './AddCoursework'
 import DeleteCoursework from './DeleteCoursework'
+import UpdateCoursework from './UpdateCoursework'
 
 function Home() {
   const {
@@ -51,6 +52,7 @@ function Home() {
               </div>
 
               <DeleteCoursework id={coursework.id} />
+              <UpdateCoursework coursework={coursework} />
             </li>
           ))}
         </ol>
