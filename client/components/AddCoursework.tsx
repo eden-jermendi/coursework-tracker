@@ -3,7 +3,11 @@ import { ChangeEvent, useState } from 'react'
 import { CourseworkData } from '../../models/coursework'
 import { addCoursework } from '../../client/apis/coursework.ts'
 
-function AddCoursework() {
+interface Props {
+  onAnnounce: (message: string) => void
+}
+
+function AddCoursework({ onAnnounce }: Props) {
   const [formData, setFormData] = useState({
     title: '',
     unit: '',
@@ -18,6 +22,10 @@ function AddCoursework() {
     mutationFn: (newCoursework: CourseworkData) => addCoursework(newCoursework),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['coursework'] })
+      onAnnounce(`Saved new coursework entry: ${formData.title}.`)
+    },
+    onError: () => {
+      onAnnounce('Unable to save the new coursework entry.')
     },
   })
 
@@ -31,6 +39,7 @@ function AddCoursework() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    onAnnounce('Saving new coursework entry.')
     addCourseworkMutation.mutate(formData)
     setFormData({
       title: '',
@@ -47,7 +56,7 @@ function AddCoursework() {
       <header className="section-heading form-heading">
         <div>
           <p className="section-label">Planner tools</p>
-          <h2>Add coursework</h2>
+          <h2 id="add-coursework-title">Add coursework</h2>
         </div>
       </header>
 
@@ -110,7 +119,11 @@ function AddCoursework() {
           name="notes"
           placeholder="Enter Notes here"
         />
-        <button className="primary-button" type="submit">
+        <button
+          className="primary-button"
+          type="submit"
+          aria-label="Save new coursework entry"
+        >
           Save entry
         </button>
       </form>

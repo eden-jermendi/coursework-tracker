@@ -1,14 +1,16 @@
-import { useState, ChangeEvent } from 'react'
+import { useEffect, useRef, useState, ChangeEvent } from 'react'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { updateCoursework } from '../apis/coursework'
 import { Coursework, CourseworkData } from '../../models/coursework'
 
 interface Props {
   coursework: Coursework
+  onAnnounce: (message: string) => void
 }
 
-function UpdateCoursework({ coursework }: Props) {
+function UpdateCoursework({ coursework, onAnnounce }: Props) {
   const [isEditing, setIsEditing] = useState(false)
+  const [shouldRestoreFocus, setShouldRestoreFocus] = useState(false)
   const [formData, setFormData] = useState({
     title: coursework.title,
     unit: coursework.unit,
@@ -17,6 +19,8 @@ function UpdateCoursework({ coursework }: Props) {
     due_date: coursework.due_date ?? '',
     notes: coursework.notes ?? '',
   })
+  const editButtonRef = useRef<HTMLButtonElement | null>(null)
+  const titleInputRef = useRef<HTMLInputElement | null>(null)
 
   const queryClient = useQueryClient()
 
@@ -30,9 +34,27 @@ function UpdateCoursework({ coursework }: Props) {
     }) => updateCoursework(id, updatedCoursework),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['coursework'] })
+      onAnnounce(`Saved changes to coursework: ${coursework.title}.`)
+      setShouldRestoreFocus(true)
       setIsEditing(false)
     },
+    onError: () => {
+      onAnnounce(`Unable to save changes to coursework: ${coursework.title}.`)
+    },
   })
+
+  useEffect(() => {
+    if (isEditing) {
+      titleInputRef.current?.focus()
+    }
+  }, [isEditing])
+
+  useEffect(() => {
+    if (!isEditing && shouldRestoreFocus) {
+      editButtonRef.current?.focus()
+      setShouldRestoreFocus(false)
+    }
+  }, [isEditing, shouldRestoreFocus])
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -44,6 +66,7 @@ function UpdateCoursework({ coursework }: Props) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    onAnnounce(`Saving changes to coursework: ${coursework.title}.`)
     updateCourseworkMutation.mutate({
       id: coursework.id,
       updatedCoursework: formData,
@@ -54,6 +77,11 @@ function UpdateCoursework({ coursework }: Props) {
     return (
       <button
         className="action-button secondary-button"
+        type="button"
+        aria-label={`Edit coursework: ${coursework.title}`}
+        aria-expanded={isEditing}
+        aria-controls={`edit-coursework-form-${coursework.id}`}
+        ref={editButtonRef}
         onClick={() => setIsEditing(true)}
       >
         Edit
@@ -62,14 +90,22 @@ function UpdateCoursework({ coursework }: Props) {
   }
 
   return (
-    <form className="form edit-form" onSubmit={handleSubmit}>
+    <form
+      id={`edit-coursework-form-${coursework.id}`}
+      className="form edit-form"
+      aria-label={`Edit coursework: ${coursework.title}`}
+      onSubmit={handleSubmit}
+    >
       <label htmlFor={`title-${coursework.id}`}>Title: </label>
       <input
         id={`title-${coursework.id}`}
+        ref={titleInputRef}
         type="text"
         name="title"
         value={formData.title}
         onChange={handleChange}
+        placeholder="Enter Title here"
+        aria-label={`Title for coursework: ${coursework.title}`}
       />
       <label htmlFor={`unit-${coursework.id}`}>Unit: </label>
       <input
@@ -78,6 +114,8 @@ function UpdateCoursework({ coursework }: Props) {
         name="unit"
         value={formData.unit}
         onChange={handleChange}
+        placeholder="Enter Unit here"
+        aria-label={`Unit for coursework: ${coursework.title}`}
       />
 
       <label htmlFor={`status-${coursework.id}`}>Status: </label>
@@ -87,6 +125,8 @@ function UpdateCoursework({ coursework }: Props) {
         name="status"
         value={formData.status}
         onChange={handleChange}
+        placeholder="Enter Status here"
+        aria-label={`Status for coursework: ${coursework.title}`}
       />
 
       <label htmlFor={`priority-${coursework.id}`}>Priority: </label>
@@ -96,6 +136,8 @@ function UpdateCoursework({ coursework }: Props) {
         name="priority"
         value={formData.priority}
         onChange={handleChange}
+        placeholder="Enter Priority here"
+        aria-label={`Priority for coursework: ${coursework.title}`}
       />
 
       <label htmlFor={`due_date-${coursework.id}`}>Due date: </label>
@@ -105,6 +147,8 @@ function UpdateCoursework({ coursework }: Props) {
         name="due_date"
         value={formData.due_date}
         onChange={handleChange}
+        placeholder="Enter Due date here"
+        aria-label={`Due date for coursework: ${coursework.title}`}
       />
 
       <label htmlFor={`notes-${coursework.id}`}>Notes: </label>
@@ -113,15 +157,22 @@ function UpdateCoursework({ coursework }: Props) {
         name="notes"
         value={formData.notes}
         onChange={handleChange}
+        placeholder="Enter Notes here"
+        aria-label={`Notes for coursework: ${coursework.title}`}
       />
 
       <div className="edit-actions">
-        <button className="primary-button save-button" type="submit">
+        <button
+          className="primary-button save-button"
+          type="submit"
+          aria-label={`Save changes to coursework: ${coursework.title}`}
+        >
           Save
         </button>
         <button
           className="action-button secondary-button"
           type="button"
+          aria-label={`Cancel editing coursework: ${coursework.title}`}
           onClick={() => {
             setFormData({
               title: coursework.title,
@@ -131,6 +182,7 @@ function UpdateCoursework({ coursework }: Props) {
               due_date: coursework.due_date ?? '',
               notes: coursework.notes ?? '',
             })
+            setShouldRestoreFocus(true)
             setIsEditing(false)
           }}
         >
