@@ -2,12 +2,18 @@ import Home from './Home'
 
 function App() {
   return (
-    <>
-      <header className="header">
-        <h1>My Collection</h1>
+    <div className="app-shell">
+      <header className="page-header">
+        <p className="page-kicker">MVP A</p>
+        <h1>Coursework Tracker</h1>
+        <p className="page-subtitle">
+          Keep upcoming work visible, organized, and easier to act on.
+        </p>
       </header>
-      <section className="main">{<Home />}</section>
-    </>
+      <main className="page-content">
+        <Home />
+      </main>
+    </div>
   )
 }
 

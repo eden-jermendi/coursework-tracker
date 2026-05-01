@@ -44,8 +44,11 @@ function AddCoursework() {
 
   return (
     <>
-      <header className="header">
-        <h1>Add Coursework:</h1>
+      <header className="section-heading form-heading">
+        <div>
+          <p className="section-label">Planner tools</p>
+          <h2>Add coursework</h2>
+        </div>
       </header>
 
       <form className="form" onSubmit={handleSubmit}>
@@ -107,7 +110,9 @@ function AddCoursework() {
           name="notes"
           placeholder="Enter Notes here"
         />
-        <button type="submit">Submit</button>
+        <button className="primary-button" type="submit">
+          Save entry
+        </button>
       </form>
     </>
   )

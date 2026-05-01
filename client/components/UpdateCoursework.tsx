@@ -52,7 +52,10 @@ function UpdateCoursework({ coursework }: Props) {
 
   if (!isEditing) {
     return (
-      <button className="delete-button" onClick={() => setIsEditing(true)}>
+      <button
+        className="action-button secondary-button"
+        onClick={() => setIsEditing(true)}
+      >
         Edit
       </button>
     )
@@ -112,10 +115,11 @@ function UpdateCoursework({ coursework }: Props) {
         onChange={handleChange}
       />
 
-      <button className="save-button" type="submit">
+      <button className="primary-button save-button" type="submit">
         Save
       </button>
       <button
+        className="action-button secondary-button"
         type="button"
         onClick={() => {
           setFormData({

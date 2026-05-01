@@ -20,7 +20,7 @@ function DeleteCoursework({ id }: Props) {
   }
 
   return (
-    <button className="delete-button" onClick={handleClick}>
+    <button className="action-button delete-button" onClick={handleClick}>
       Delete
     </button>
   )
