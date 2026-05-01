@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { getCoursework } from '../apis/coursework'
 import AddCoursework from './AddCoursework'
+import DeleteCoursework from './DeleteCoursework'
 
 function Home() {
   const {
@@ -29,7 +30,7 @@ function Home() {
       <section className="main">
         <ol className="list">
           {coursework.map((coursework) => (
-            <li key={coursework.title}>
+            <li key={coursework.id}>
               <div>
                 <strong>Title:</strong> {coursework.title}
               </div>
@@ -48,6 +49,8 @@ function Home() {
               <div>
                 <strong>Notes:</strong> {coursework.notes}
               </div>
+
+              <DeleteCoursework id={coursework.id} />
             </li>
           ))}
         </ol>
