@@ -272,8 +272,12 @@ textarea {
   border: 0;
   border-radius: 999px;
   padding: 0.72rem 1.05rem;
+  min-height: 44px;
   cursor: pointer;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition:
     transform 140ms ease,
     background-color 140ms ease,
@@ -327,8 +331,22 @@ textarea {
   background: rgba(235, 226, 213, 0.45);
 }
 
+.edit-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.edit-actions .action-button,
+.edit-actions .primary-button {
+  height: 44px;
+}
+
 .save-button {
-  margin-right: 8px;
+  min-width: 132px;
+  margin-top: 0;
+  text-align: center;
 }
 
 @media (max-width: 720px) {

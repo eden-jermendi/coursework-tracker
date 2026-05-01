@@ -115,26 +115,28 @@ function UpdateCoursework({ coursework }: Props) {
         onChange={handleChange}
       />
 
-      <button className="primary-button save-button" type="submit">
-        Save
-      </button>
-      <button
-        className="action-button secondary-button"
-        type="button"
-        onClick={() => {
-          setFormData({
-            title: coursework.title,
-            unit: coursework.unit,
-            status: coursework.status,
-            priority: coursework.priority,
-            due_date: coursework.due_date ?? '',
-            notes: coursework.notes ?? '',
-          })
-          setIsEditing(false)
-        }}
-      >
-        Cancel
-      </button>
+      <div className="edit-actions">
+        <button className="primary-button save-button" type="submit">
+          Save
+        </button>
+        <button
+          className="action-button secondary-button"
+          type="button"
+          onClick={() => {
+            setFormData({
+              title: coursework.title,
+              unit: coursework.unit,
+              status: coursework.status,
+              priority: coursework.priority,
+              due_date: coursework.due_date ?? '',
+              notes: coursework.notes ?? '',
+            })
+            setIsEditing(false)
+          }}
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   )
 }

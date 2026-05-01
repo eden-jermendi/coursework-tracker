@@ -16,6 +16,14 @@ function DeleteCoursework({ id }: Props) {
   })
 
   const handleClick = () => {
+    const shouldDelete = window.confirm(
+      'Are you sure you want to delete the entry?',
+    )
+
+    if (!shouldDelete) {
+      return
+    }
+
     deleteCourseworkMutation.mutate(id)
   }
 
