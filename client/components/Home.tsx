@@ -4,6 +4,7 @@ import { getCoursework } from '../apis/coursework'
 import AddCoursework from './AddCoursework'
 import DeleteCoursework from './DeleteCoursework'
 import UpdateCoursework from './UpdateCoursework'
+import JokeBox from './JokeBox'
 
 function Home() {
   const [announcement, setAnnouncement] = useState('')
@@ -32,9 +33,18 @@ function Home() {
   }
   return (
     <div className="dashboard-layout">
-      <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+      <p
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         {announcement}
       </p>
+
+      <aside className="joke-panel">
+        <JokeBox />
+      </aside>
 
       <section
         className="coursework-panel"

@@ -1,13 +1,16 @@
 import * as Path from 'node:path'
 import express from 'express'
-
+import dotenv from 'dotenv'
 import courseworkRoutes from './routes/coursework'
+import jokeRoutes from './routes/joke'
+
+dotenv.config()
 
 const server = express()
 server.use(express.json())
 
-// ADD YOUR API ROUTES HERE
-server.use('/api/v1/coursework', courseworkRoutes) 
+server.use('/api/v1/coursework', courseworkRoutes)
+server.use('/api/v1/joke', jokeRoutes)
 
 if (process.env.NODE_ENV === 'production') {
   server.use(express.static(Path.resolve('public')))

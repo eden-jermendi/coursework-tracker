@@ -69,7 +69,7 @@ textarea {
 }
 
 .page-header {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   padding: 32px;
   border: 1px solid rgba(184, 165, 143, 0.7);
   border-radius: 28px;
@@ -112,7 +112,8 @@ textarea {
 
 .coursework-panel,
 .form-panel,
-.status-panel {
+.status-panel,
+.joke-panel {
   border: 1px solid rgba(184, 165, 143, 0.75);
   border-radius: 24px;
   background: var(--bg-panel);
@@ -121,7 +122,8 @@ textarea {
 }
 
 .coursework-panel,
-.form-panel {
+.form-panel,
+.joke-panel {
   padding: 24px;
 }
 
@@ -137,6 +139,60 @@ textarea {
   margin-bottom: 8px;
   font-size: 1.1rem;
   font-weight: 700;
+}
+
+.joke-panel {
+  width: 100%;
+}
+
+.joke-panel section {
+  display: grid;
+  gap: 14px;
+}
+
+.joke-panel h2 {
+  margin-bottom: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.joke-panel p {
+  margin-bottom: 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.joke-panel button {
+  justify-self: start;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.72rem 1.05rem;
+  min-height: 44px;
+  cursor: pointer;
+  background: var(--button-main);
+  color: #fffaf4;
+  font-weight: 700;
+  transition:
+    transform 140ms ease,
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.joke-panel button:hover {
+  transform: translateY(-1px);
+  background: var(--button-main-hover);
+}
+
+.joke-panel button:focus-visible {
+  outline: 3px solid #5d442d;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(93, 68, 45, 0.24);
+}
+
+.joke-panel button:disabled {
+  cursor: wait;
+  opacity: 0.82;
 }
 
 .empty-state {
@@ -359,6 +415,7 @@ textarea {
     transition-duration: 0.01ms !important;
   }
 }
+
 
 .edit-form {
   width: 100%;
