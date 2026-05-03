@@ -43,7 +43,7 @@ function AuthComponent() {
             label: 'supabase-auth-label',
           },
         }}
-        providers={['github']}
+        providers={['github', 'google']}
         redirectTo={window.location.origin}
       />
     </div>
