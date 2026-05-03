@@ -1,29 +1,43 @@
-import request from 'superagent'
+import { supabase } from '../supabase'
 import { Coursework, CourseworkData } from '../../models/coursework'
 
-const rootURL = new URL(`/api/v1`, document.baseURI)
-
-// GET
+// GET - Fetches only the coursework for the logged-in user (handled by RLS)
 export async function getCoursework(): Promise<Coursework[]> {
-  const result = await request.get(`${rootURL}/coursework`)
+  const { data, error } = await supabase
+    .from('coursework')
+    .select('*')
+    .order('created_at', { ascending: false })
 
-  return result.body.coursework
+  if (error) throw error
+  return data as Coursework[]
 }
 
 // POST (add)
 export async function addCoursework(
   newCoursework: CourseworkData,
 ): Promise<Coursework> {
-  const result = await request
-    .post(`${rootURL}/coursework`)
-    .send({ coursework: newCoursework })
+  // We get the current user session to attach the user_id
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  return result.body.coursework
+  if (!user) throw new Error('User must be logged in to add coursework')
+
+  const { data, error } = await supabase
+    .from('coursework')
+    .insert([{ ...newCoursework, user_id: user.id }])
+    .select()
+    .single()
+
+  if (error) throw error
+  return data as Coursework
 }
 
 // DELETE
 export async function deleteCoursework(id: number): Promise<void> {
-  await request.delete(`${rootURL}/coursework/${id}`)
+  const { error } = await supabase.from('coursework').delete().eq('id', id)
+
+  if (error) throw error
 }
 
 // UPDATE
@@ -31,9 +45,13 @@ export async function updateCoursework(
   id: number,
   newCoursework: CourseworkData,
 ): Promise<Coursework> {
-  const result = await request
-    .put(`${rootURL}/coursework/${id}`)
-    .send({ coursework: newCoursework })
+  const { data, error } = await supabase
+    .from('coursework')
+    .update(newCoursework)
+    .eq('id', id)
+    .select()
+    .single()
 
-  return result.body.coursework
+  if (error) throw error
+  return data as Coursework
 }
