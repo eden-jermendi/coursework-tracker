@@ -405,8 +405,54 @@ textarea {
   color: #fff7f3;
 }
 
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.logout-button {
+  background: var(--button-alt);
+  color: var(--text-main);
+  border: 0;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 140ms ease,
+    transform 140ms ease;
+}
+
+.logout-button:hover {
+  background: var(--button-alt-hover);
+  transform: translateY(-1px);
+}
+
+.auth-container {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 40px;
+  border: 1px solid rgba(184, 165, 143, 0.75);
+  border-radius: 28px;
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(6px);
+}
+
+.supabase-auth-button {
+  font-weight: 700 !important;
+  transition: transform 140ms ease !important;
+}
+
+.supabase-auth-button:hover {
+  transform: translateY(-1px);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *,
+...
   *::before,
   *::after {
     scroll-behavior: auto;
