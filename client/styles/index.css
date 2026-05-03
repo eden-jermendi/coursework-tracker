@@ -452,7 +452,7 @@ textarea {
 }
 
 @media (prefers-reduced-motion: reduce) {
-...
+  *,
   *::before,
   *::after {
     scroll-behavior: auto;
