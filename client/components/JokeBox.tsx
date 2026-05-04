@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { fetchRandomJoke } from '../apis/jokes'
+import { playLaughSound } from '../utils/sound.ts'
 
 export default function JokeBox() {
   const [joke, setJoke] = useState('')
@@ -7,10 +8,11 @@ export default function JokeBox() {
   const [error, setError] = useState('')
 
   async function handleGetJoke() {
+    playLaughSound()
     try {
       setIsLoading(true)
       setError('')
-
+...
       const data = await fetchRandomJoke()
       setJoke(data.joke)
     } catch (err) {
