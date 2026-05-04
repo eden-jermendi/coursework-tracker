@@ -30,7 +30,7 @@ function AddCoursework({ onAnnounce }: Props) {
   })
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const newValue = e.currentTarget.value
     const propertyName = e.currentTarget.name
@@ -82,24 +82,36 @@ function AddCoursework({ onAnnounce }: Props) {
         />
 
         <label htmlFor="status">Status: </label>
-        <input
+        <select
           id="status"
           onChange={handleChange}
-          type="text"
           value={formData.status}
           name="status"
-          placeholder="Enter Status here"
-        />
+        >
+          <option value="" disabled>
+            Select Status
+          </option>
+          <option value="To do">To do</option>
+          <option value="Draft">Draft</option>
+          <option value="Submitted">Submitted</option>
+          <option value="Need revisions">Need revisions</option>
+        </select>
 
         <label htmlFor="priority">Priority: </label>
-        <input
+        <select
           id="priority"
           onChange={handleChange}
-          type="text"
           value={formData.priority}
           name="priority"
-          placeholder="Enter Priority here"
-        />
+        >
+          <option value="" disabled>
+            Select Priority
+          </option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+          <option value="Urgent">Urgent</option>
+        </select>
 
         <label htmlFor="due_date">Due date: </label>
         <input

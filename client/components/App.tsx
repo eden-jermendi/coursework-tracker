@@ -8,9 +8,14 @@ function App() {
   const [session, setSession] = useState<Session | null>(null)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
+    supabase.auth
+      .getSession()
+      .then(({ data: { session } }) => {
+        setSession(session)
+      })
+      .catch((error) => {
+        console.error('Error getting session:', error)
+      })
 
     const {
       data: { subscription },
@@ -27,12 +32,17 @@ function App() {
         <div className="header-top">
           <p className="page-kicker">MVP A + Auth</p>
           {session && (
-            <button
-              className="logout-button"
-              onClick={() => supabase.auth.signOut()}
-            >
-              Log Out
-            </button>
+            <div className="user-info">
+              <span className="user-email">
+                Currently logged in as: {session.user.email}
+              </span>
+              <button
+                className="logout-button"
+                onClick={() => supabase.auth.signOut()}
+              >
+                Log Out
+              </button>
+            </div>
           )}
         </div>
         <h1 id="page-title">Coursework Tracker</h1>

@@ -10,7 +10,7 @@ interface Props {
 
 function UpdateCoursework({ coursework, onAnnounce }: Props) {
   const [isEditing, setIsEditing] = useState(false)
-  const [shouldRestoreFocus, setShouldRestoreFocus] = useState(false)
+  const pendingFocusRef = useRef(false)
   const [formData, setFormData] = useState({
     title: coursework.title,
     unit: coursework.unit,
@@ -35,7 +35,7 @@ function UpdateCoursework({ coursework, onAnnounce }: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['coursework'] })
       onAnnounce(`Saved changes to coursework: ${coursework.title}.`)
-      setShouldRestoreFocus(true)
+      pendingFocusRef.current = true
       setIsEditing(false)
     },
     onError: () => {
@@ -50,14 +50,14 @@ function UpdateCoursework({ coursework, onAnnounce }: Props) {
   }, [isEditing])
 
   useEffect(() => {
-    if (!isEditing && shouldRestoreFocus) {
+    if (!isEditing && pendingFocusRef.current) {
       editButtonRef.current?.focus()
-      setShouldRestoreFocus(false)
+      pendingFocusRef.current = false
     }
-  }, [isEditing, shouldRestoreFocus])
+  }, [isEditing])
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const newValue = e.currentTarget.value
     const propertyName = e.currentTarget.name
@@ -119,26 +119,32 @@ function UpdateCoursework({ coursework, onAnnounce }: Props) {
       />
 
       <label htmlFor={`status-${coursework.id}`}>Status: </label>
-      <input
+      <select
         id={`status-${coursework.id}`}
-        type="text"
         name="status"
         value={formData.status}
         onChange={handleChange}
-        placeholder="Enter Status here"
         aria-label={`Status for coursework: ${coursework.title}`}
-      />
+      >
+        <option value="To do">To do</option>
+        <option value="Draft">Draft</option>
+        <option value="Submitted">Submitted</option>
+        <option value="Need revisions">Need revisions</option>
+      </select>
 
       <label htmlFor={`priority-${coursework.id}`}>Priority: </label>
-      <input
+      <select
         id={`priority-${coursework.id}`}
-        type="text"
         name="priority"
         value={formData.priority}
         onChange={handleChange}
-        placeholder="Enter Priority here"
         aria-label={`Priority for coursework: ${coursework.title}`}
-      />
+      >
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+        <option value="Urgent">Urgent</option>
+      </select>
 
       <label htmlFor={`due_date-${coursework.id}`}>Due date: </label>
       <input
@@ -182,7 +188,7 @@ function UpdateCoursework({ coursework, onAnnounce }: Props) {
               due_date: coursework.due_date ?? '',
               notes: coursework.notes ?? '',
             })
-            setShouldRestoreFocus(true)
+            pendingFocusRef.current = true
             setIsEditing(false)
           }}
         >
