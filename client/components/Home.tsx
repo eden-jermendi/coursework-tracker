@@ -11,6 +11,10 @@ type SortOption =
   | 'priority-asc'
   | 'due_date-asc'
   | 'due_date-desc'
+  | 'title-asc'
+  | 'title-desc'
+  | 'unit-asc'
+  | 'unit-desc'
   | ''
 
 const priorityMap: Record<string, number> = {
@@ -68,7 +72,10 @@ function Home() {
   const sortedCoursework = [...coursework].sort((a, b) => {
     if (!sortBy) return 0
 
-    const [key, order] = sortBy.split('-') as ['priority' | 'due_date', 'asc' | 'desc']
+    const [key, order] = sortBy.split('-') as [
+      'priority' | 'due_date' | 'title' | 'unit',
+      'asc' | 'desc',
+    ]
 
     if (key === 'priority') {
       const valA = priorityMap[a.priority] || 0
@@ -80,6 +87,14 @@ function Home() {
       const dateA = a.due_date ? new Date(a.due_date).getTime() : Infinity
       const dateB = b.due_date ? new Date(b.due_date).getTime() : Infinity
       return order === 'asc' ? dateA - dateB : dateB - dateA
+    }
+
+    if (key === 'title' || key === 'unit') {
+      const valA = a[key].toLowerCase()
+      const valB = b[key].toLowerCase()
+      return order === 'asc'
+        ? valA.localeCompare(valB)
+        : valB.localeCompare(valA)
     }
 
     return 0
@@ -127,6 +142,10 @@ function Home() {
               <option value="priority-asc">Priority (Low first)</option>
               <option value="due_date-asc">Due Date (Earliest)</option>
               <option value="due_date-desc">Due Date (Latest)</option>
+              <option value="title-asc">Title (A-Z)</option>
+              <option value="title-desc">Title (Z-A)</option>
+              <option value="unit-asc">Unit (A-Z)</option>
+              <option value="unit-desc">Unit (Z-A)</option>
             </select>
             <p className="section-meta">
               {coursework.length} item{coursework.length === 1 ? '' : 's'}
