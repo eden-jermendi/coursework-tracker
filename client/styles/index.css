@@ -263,10 +263,34 @@ select {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  align-items: end;
+  align-items: center;
   margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--surface-line);
+}
+
+.heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sort-select {
+  padding: 6px 10px;
+  border: 1px solid var(--surface-line);
+  border-radius: 999px;
+  background: var(--bg-panel-strong);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 140ms ease;
+}
+
+.sort-select:hover,
+.sort-select:focus {
+  border-color: var(--button-main);
 }
 
 .section-heading h2 {

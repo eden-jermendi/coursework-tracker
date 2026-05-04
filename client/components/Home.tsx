@@ -6,10 +6,25 @@ import DeleteCoursework from './DeleteCoursework'
 import UpdateCoursework from './UpdateCoursework'
 import JokeBox from './JokeBox'
 
+type SortOption =
+  | 'priority-desc'
+  | 'priority-asc'
+  | 'due_date-asc'
+  | 'due_date-desc'
+  | ''
+
+const priorityMap: Record<string, number> = {
+  Urgent: 4,
+  High: 3,
+  Medium: 2,
+  Low: 1,
+}
+
 function Home() {
   const [announcement, setAnnouncement] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [notification, setNotification] = useState<string | null>(null)
+  const [sortBy, setSortBy] = useState<SortOption>('')
 
   const showNotification = (message: string) => {
     setNotification(message)
@@ -49,6 +64,27 @@ function Home() {
       </section>
     )
   }
+
+  const sortedCoursework = [...coursework].sort((a, b) => {
+    if (!sortBy) return 0
+
+    const [key, order] = sortBy.split('-') as ['priority' | 'due_date', 'asc' | 'desc']
+
+    if (key === 'priority') {
+      const valA = priorityMap[a.priority] || 0
+      const valB = priorityMap[b.priority] || 0
+      return order === 'asc' ? valA - valB : valB - valA
+    }
+
+    if (key === 'due_date') {
+      const dateA = a.due_date ? new Date(a.due_date).getTime() : Infinity
+      const dateB = b.due_date ? new Date(b.due_date).getTime() : Infinity
+      return order === 'asc' ? dateA - dateB : dateB - dateA
+    }
+
+    return 0
+  })
+
   return (
     <div className="dashboard-layout">
       <p
@@ -79,9 +115,23 @@ function Home() {
             <p className="section-label">Stored entries</p>
             <h2 id="coursework-section-title">Current coursework</h2>
           </div>
-          <p className="section-meta">
-            {coursework.length} item{coursework.length === 1 ? '' : 's'}
-          </p>
+          <div className="heading-actions">
+            <select
+              className="sort-select"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortOption)}
+              aria-label="Sort coursework"
+            >
+              <option value="">Sort by...</option>
+              <option value="priority-desc">Priority (Urgent first)</option>
+              <option value="priority-asc">Priority (Low first)</option>
+              <option value="due_date-asc">Due Date (Earliest)</option>
+              <option value="due_date-desc">Due Date (Latest)</option>
+            </select>
+            <p className="section-meta">
+              {coursework.length} item{coursework.length === 1 ? '' : 's'}
+            </p>
+          </div>
         </header>
 
         {coursework.length === 0 ? (
@@ -91,7 +141,7 @@ function Home() {
           </section>
         ) : (
           <div className="coursework-list">
-            {coursework.map((coursework) => (
+            {sortedCoursework.map((coursework) => (
               <section
                 className="coursework-entry"
                 key={coursework.id}
