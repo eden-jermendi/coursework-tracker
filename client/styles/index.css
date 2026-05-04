@@ -323,10 +323,27 @@ textarea {
   border-radius: 12px;
   background: rgba(255, 250, 242, 0.96);
   color: var(--text-main);
+  accent-color: var(--button-main);
   transition:
     border-color 140ms ease,
     box-shadow 140ms ease,
     background-color 140ms ease;
+}
+
+.form input[type='date'] {
+  cursor: pointer;
+}
+
+.form input[type='date']::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  filter: sepia(100%) hue-rotate(340deg) saturate(500%) brightness(40%); /* Approximate the brown theme */
+  transition: background-color 140ms ease;
+}
+
+.form input[type='date']::-webkit-calendar-picker-indicator:hover {
+  background-color: var(--button-alt);
 }
 
 .form input:focus,
