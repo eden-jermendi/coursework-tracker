@@ -24,7 +24,7 @@ function Home() {
   const [announcement, setAnnouncement] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [notification, setNotification] = useState<string | null>(null)
-  const [sortBy, setSortBy] = useState<SortOption>('')
+  const [sortBy, setSortBy] = useState<SortOption>('priority-desc')
 
   const showNotification = (message: string) => {
     setNotification(message)
