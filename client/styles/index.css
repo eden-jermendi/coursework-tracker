@@ -42,7 +42,8 @@ p {
 
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
 }
 
@@ -105,12 +106,66 @@ textarea {
   line-height: 1.6;
 }
 
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-email {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.logout-button {
+  background: var(--button-alt);
+  color: var(--text-main);
+  border: 0;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 140ms ease,
+    transform 140ms ease;
+}
+
+.logout-button:hover {
+  background: var(--button-alt-hover);
+  transform: translateY(-1px);
+}
+
 .dashboard-layout {
   display: grid;
   gap: 24px;
 }
 
 .coursework-panel,
+.form-panel,
+.status-panel,
+.joke-panel {
+  border: 1px solid rgba(184, 165, 143, 0.75);
+  border-radius: 24px;
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(6px);
+}
+
+.coursework-panel,
+.form-panel,
+.joke-panel {
+  padding: 24px;
+}
+
 .form-panel {
   padding: 0;
   overflow: hidden;
@@ -128,7 +183,7 @@ textarea {
 }
 
 .form-container.is-open {
-  max-height: 1000px; /* Large enough to hold the form */
+  max-height: 1000px;
   opacity: 1;
   padding: 24px;
 }
@@ -159,22 +214,6 @@ textarea {
 
 .toggle-form-button.is-open svg {
   transform: rotate(45deg);
-}
-
-.form-panel,
-.status-panel,
-.joke-panel {
-  border: 1px solid rgba(184, 165, 143, 0.75);
-  border-radius: 24px;
-  background: var(--bg-panel);
-  box-shadow: var(--shadow-card);
-  backdrop-filter: blur(6px);
-}
-
-.coursework-panel,
-.form-panel,
-.joke-panel {
-  padding: 24px;
 }
 
 .status-panel {
@@ -211,38 +250,6 @@ textarea {
   margin-bottom: 0;
   color: var(--text-muted);
   line-height: 1.6;
-}
-
-.joke-panel button {
-  justify-self: start;
-  border: 0;
-  border-radius: 999px;
-  padding: 0.72rem 1.05rem;
-  min-height: 44px;
-  cursor: pointer;
-  background: var(--button-main);
-  color: #fffaf4;
-  font-weight: 700;
-  transition:
-    transform 140ms ease,
-    background-color 140ms ease,
-    color 140ms ease;
-}
-
-.joke-panel button:hover {
-  transform: translateY(-1px);
-  background: var(--button-main-hover);
-}
-
-.joke-panel button:focus-visible {
-  outline: 3px solid #5d442d;
-  outline-offset: 3px;
-  box-shadow: 0 0 0 5px rgba(93, 68, 45, 0.24);
-}
-
-.joke-panel button:disabled {
-  cursor: wait;
-  opacity: 0.82;
 }
 
 .empty-state {
@@ -364,6 +371,7 @@ textarea {
   font-size: 0.92rem;
   font-weight: 700;
 }
+
 .form input,
 .form textarea,
 .form select {
@@ -388,7 +396,7 @@ textarea {
   cursor: pointer;
   padding: 4px;
   border-radius: 6px;
-  filter: sepia(100%) hue-rotate(340deg) saturate(500%) brightness(40%); /* Approximate the brown theme */
+  filter: sepia(100%) hue-rotate(340deg) saturate(500%) brightness(40%);
   transition: background-color 140ms ease;
 }
 
@@ -414,58 +422,50 @@ textarea {
   outline-offset: 3px;
   box-shadow: 0 0 0 5px rgba(93, 68, 45, 0.24);
 }
-...
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
+
+.form textarea {
+  min-height: 120px;
+  resize: vertical;
 }
 
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.user-email {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-.logout-button {
+.action-button,
+.primary-button,
+.joke-panel button {
   border: 0;
   border-radius: 999px;
-  padding: 0.72rem 1.05rem;
+  padding: 0.72rem 1.4rem;
   min-height: 44px;
   cursor: pointer;
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-weight: 700;
+  font-size: 0.92rem;
   transition:
     transform 140ms ease,
     background-color 140ms ease,
     color 140ms ease,
-    border-color 140ms ease;
+    border-color 140ms ease,
+    box-shadow 140ms ease;
 }
 
-.action-button:hover,
-.primary-button:hover {
-  transform: translateY(-1px);
-}
-
-.primary-button {
-  justify-self: start;
-  margin-top: 18px;
+.primary-button,
+.joke-panel button {
   background: var(--button-main);
   color: #fffaf4;
-  font-weight: 700;
 }
 
-.primary-button:hover {
+.primary-button:hover,
+.joke-panel button:hover {
   background: var(--button-main-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(124, 95, 67, 0.2);
+}
+
+.primary-button:active,
+.joke-panel button:active {
+  transform: translateY(0);
 }
 
 .secondary-button {
@@ -475,42 +475,73 @@ textarea {
 
 .secondary-button:hover {
   background: var(--button-alt-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(92, 72, 47, 0.1);
 }
 
 .delete-button {
-  background: rgba(201, 125, 99, 0.14);
+  background: rgba(201, 125, 99, 0.1);
   color: #7f4632;
+  border: 1px solid rgba(201, 125, 99, 0.2);
 }
 
 .delete-button:hover {
   background: var(--button-danger);
   color: #fff7f3;
+  border-color: var(--button-danger);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(201, 125, 99, 0.2);
 }
 
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
+.form .primary-button {
+  margin-top: 12px;
+  padding: 0.8rem 2.4rem;
+  width: auto;
+  justify-self: end;
 }
 
-.logout-button {
-  background: var(--button-alt);
-  color: var(--text-main);
-  border: 0;
-  border-radius: 999px;
-  padding: 0.5rem 1rem;
+.entry-actions .action-button {
+  padding: 0.5rem 1.2rem;
+  min-height: 38px;
   font-size: 0.85rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition:
-    background-color 140ms ease,
-    transform 140ms ease;
 }
 
-.logout-button:hover {
-  background: var(--button-alt-hover);
-  transform: translateY(-1px);
+.joke-panel button:disabled {
+  cursor: wait;
+  opacity: 0.82;
+}
+
+.notification-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: grid;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.notification {
+  padding: 14px 24px;
+  background: var(--button-main);
+  color: #fff;
+  border-radius: 999px;
+  box-shadow: var(--shadow-soft);
+  font-weight: 700;
+  font-size: 0.95rem;
+  animation: slide-in 300ms ease-out forwards;
+  pointer-events: auto;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .auth-container {
@@ -543,7 +574,6 @@ textarea {
     transition-duration: 0.01ms !important;
   }
 }
-
 
 .edit-form {
   width: 100%;

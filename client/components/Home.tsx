@@ -9,6 +9,23 @@ import JokeBox from './JokeBox'
 function Home() {
   const [announcement, setAnnouncement] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
+  const [notification, setNotification] = useState<string | null>(null)
+
+  const showNotification = (message: string) => {
+    setNotification(message)
+    setTimeout(() => setNotification(null), 3500)
+  }
+
+  const handleAnnounce = (message: string) => {
+    setAnnouncement(message)
+    showNotification(message)
+  }
+
+  const handleSuccess = (message: string) => {
+    handleAnnounce(message)
+    setIsFormOpen(false)
+  }
+
   const {
     data: coursework,
     isPending,
@@ -42,6 +59,12 @@ function Home() {
       >
         {announcement}
       </p>
+
+      {notification && (
+        <div className="notification-container">
+          <div className="notification">{notification}</div>
+        </div>
+      )}
 
       <aside className="joke-panel">
         <JokeBox />
@@ -112,11 +135,11 @@ function Home() {
                   <DeleteCoursework
                     id={coursework.id}
                     title={coursework.title}
-                    onAnnounce={setAnnouncement}
+                    onAnnounce={handleAnnounce}
                   />
                   <UpdateCoursework
                     coursework={coursework}
-                    onAnnounce={setAnnouncement}
+                    onAnnounce={handleAnnounce}
                   />
                 </div>
               </section>
@@ -151,7 +174,7 @@ function Home() {
           id="add-coursework-container"
           className={`form-container ${isFormOpen ? 'is-open' : ''}`}
         >
-          <AddCoursework onAnnounce={setAnnouncement} />
+          <AddCoursework onAnnounce={handleSuccess} />
         </div>
       </section>
     </div>
