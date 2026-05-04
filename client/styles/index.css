@@ -314,9 +314,9 @@ textarea {
   font-size: 0.92rem;
   font-weight: 700;
 }
-
 .form input,
-.form textarea {
+.form textarea,
+.form select {
   width: 100%;
   padding: 0.8rem 0.95rem;
   border: 1px solid var(--surface-line);
@@ -330,7 +330,8 @@ textarea {
 }
 
 .form input:focus,
-.form textarea:focus {
+.form textarea:focus,
+.form select:focus {
   outline: none;
   border-color: var(--button-main);
   box-shadow: 0 0 0 4px rgba(124, 95, 67, 0.14);
@@ -339,20 +340,34 @@ textarea {
 
 .form input:focus-visible,
 .form textarea:focus-visible,
+.form select:focus-visible,
 .action-button:focus-visible,
 .primary-button:focus-visible {
   outline: 3px solid #5d442d;
   outline-offset: 3px;
   box-shadow: 0 0 0 5px rgba(93, 68, 45, 0.24);
 }
-
-.form textarea {
-  min-height: 120px;
-  resize: vertical;
+...
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
-.action-button,
-.primary-button {
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-email {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.logout-button {
   border: 0;
   border-radius: 999px;
   padding: 0.72rem 1.05rem;
