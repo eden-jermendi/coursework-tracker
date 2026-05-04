@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from 'react'
 import { CourseworkData } from '../../models/coursework'
 import { addCoursework } from '../../client/apis/coursework.ts'
 import confetti from 'canvas-confetti'
+import { playSuccessSound } from '../utils/sound.ts'
 
 interface Props {
   onAnnounce: (message: string) => void
@@ -24,6 +25,7 @@ function AddCoursework({ onAnnounce }: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['coursework'] })
       onAnnounce(`Saved new coursework entry: ${formData.title}.`)
+      playSuccessSound()
       confetti({
         particleCount: 150,
         spread: 70,
