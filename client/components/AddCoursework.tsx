@@ -2,6 +2,7 @@ import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { ChangeEvent, useState } from 'react'
 import { CourseworkData } from '../../models/coursework'
 import { addCoursework } from '../../client/apis/coursework.ts'
+import confetti from 'canvas-confetti'
 
 interface Props {
   onAnnounce: (message: string) => void
@@ -23,6 +24,11 @@ function AddCoursework({ onAnnounce }: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['coursework'] })
       onAnnounce(`Saved new coursework entry: ${formData.title}.`)
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+      })
     },
     onError: () => {
       onAnnounce('Unable to save the new coursework entry.')

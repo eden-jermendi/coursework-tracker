@@ -1,5 +1,6 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { deleteCoursework } from '../../client/apis/coursework.ts'
+import confetti from 'canvas-confetti'
 
 interface Props {
   id: number
@@ -15,6 +16,12 @@ function DeleteCoursework({ id, title, onAnnounce }: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['coursework'] })
       onAnnounce(`Deleted coursework: ${title}.`)
+      confetti({
+        particleCount: 100,
+        spread: 60,
+        origin: { y: 0.6 },
+        colors: ['#ff0000', '#00ff00', '#0000ff'],
+      })
     },
     onError: () => {
       onAnnounce(`Unable to delete coursework: ${title}.`)
