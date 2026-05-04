@@ -450,6 +450,10 @@ select {
     box-shadow 140ms ease;
 }
 
+.joke-panel button {
+  justify-self: start;
+}
+
 .primary-button,
 .joke-panel button {
   background: var(--button-main);
