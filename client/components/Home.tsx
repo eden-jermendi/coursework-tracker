@@ -8,6 +8,7 @@ import JokeBox from './JokeBox'
 
 function Home() {
   const [announcement, setAnnouncement] = useState('')
+  const [isFormOpen, setIsFormOpen] = useState(false)
   const {
     data: coursework,
     isPending,
@@ -125,7 +126,33 @@ function Home() {
       </section>
 
       <section className="form-panel" aria-labelledby="add-coursework-title">
-        <AddCoursework onAnnounce={setAnnouncement} />
+        <button
+          className={`toggle-form-button ${isFormOpen ? 'is-open' : ''}`}
+          onClick={() => setIsFormOpen(!isFormOpen)}
+          aria-expanded={isFormOpen}
+          aria-controls="add-coursework-container"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          {isFormOpen ? 'Cancel adding' : 'Add new coursework'}
+        </button>
+        <div
+          id="add-coursework-container"
+          className={`form-container ${isFormOpen ? 'is-open' : ''}`}
+        >
+          <AddCoursework onAnnounce={setAnnouncement} />
+        </div>
       </section>
     </div>
   )

@@ -111,6 +111,56 @@ textarea {
 }
 
 .coursework-panel,
+.form-panel {
+  padding: 0;
+  overflow: hidden;
+}
+
+.form-container {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 400ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 300ms ease,
+    padding 400ms ease;
+  padding: 0 24px;
+}
+
+.form-container.is-open {
+  max-height: 1000px; /* Large enough to hold the form */
+  opacity: 1;
+  padding: 24px;
+}
+
+.toggle-form-button {
+  width: 100%;
+  padding: 16px;
+  border: 0;
+  background: transparent;
+  color: var(--button-main);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background-color 140ms ease;
+}
+
+.toggle-form-button:hover {
+  background-color: rgba(124, 95, 67, 0.05);
+}
+
+.toggle-form-button svg {
+  transition: transform 300ms ease;
+}
+
+.toggle-form-button.is-open svg {
+  transform: rotate(45deg);
+}
+
 .form-panel,
 .status-panel,
 .joke-panel {
