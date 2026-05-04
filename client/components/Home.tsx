@@ -29,6 +29,7 @@ function Home() {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [notification, setNotification] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState<SortOption>('priority-desc')
+  const [searchQuery, setSearchQuery] = useState('')
 
   const showNotification = (message: string) => {
     setNotification(message)
@@ -69,7 +70,11 @@ function Home() {
     )
   }
 
-  const sortedCoursework = [...coursework].sort((a, b) => {
+  const filteredCoursework = coursework.filter((item) =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase()),
+  )
+
+  const sortedCoursework = [...filteredCoursework].sort((a, b) => {
     if (!sortBy) return 0
 
     const [key, order] = sortBy.split('-') as [
@@ -131,6 +136,14 @@ function Home() {
             <h2 id="coursework-section-title">Current coursework</h2>
           </div>
           <div className="heading-actions">
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search by title..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label="Search coursework by title"
+            />
             <select
               className="sort-select"
               value={sortBy}
@@ -148,7 +161,8 @@ function Home() {
               <option value="unit-desc">Unit (Z-A)</option>
             </select>
             <p className="section-meta">
-              {coursework.length} item{coursework.length === 1 ? '' : 's'}
+              {filteredCoursework.length} item
+              {filteredCoursework.length === 1 ? '' : 's'}
             </p>
           </div>
         </header>
@@ -157,6 +171,11 @@ function Home() {
           <section className="empty-state" aria-live="polite">
             <p className="status-title">No coursework entries yet</p>
             <p>Add your first coursework item below to start tracking it.</p>
+          </section>
+        ) : filteredCoursework.length === 0 ? (
+          <section className="empty-state" aria-live="polite">
+            <p className="status-title">No matches found</p>
+            <p>Try a different search term or clear your search.</p>
           </section>
         ) : (
           <div className="coursework-list">

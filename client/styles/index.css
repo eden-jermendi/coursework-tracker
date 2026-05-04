@@ -273,6 +273,26 @@ select {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.search-input {
+  padding: 6px 14px;
+  border: 1px solid var(--surface-line);
+  border-radius: 999px;
+  background: var(--bg-panel-strong);
+  color: var(--text-main);
+  font-size: 0.85rem;
+  width: 200px;
+  transition: all 140ms ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--button-main);
+  box-shadow: 0 0 0 3px rgba(124, 95, 67, 0.1);
+  width: 240px;
 }
 
 .sort-select {
