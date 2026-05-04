@@ -2,7 +2,7 @@
 
 ## Preview
 
-![App Screenshot](./images/coursework%20tracker%20screenshot.png)
+![App Screenshot](./images/coursework-tracker-screenshot.png)
 
 ---
 
