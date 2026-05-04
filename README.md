@@ -1,4 +1,4 @@
-# Coursework Tracker (MVP)
+# Coursework Tracker
 
 ## Preview
 
@@ -8,56 +8,54 @@
 
 ## Purpose
 
-A simple tool to keep track of:
+A simple, intuitive tool to keep track of:
 
-- upcoming assignments
-- next steps in a course
-- general coursework progress
+- Upcoming assignments
+- Next steps in a course
+- General coursework progress
 
-The focus is on clarity and functionality over complexity.
+The focus is on clarity and functionality over complexity, offering a streamlined experience for students and lifelong learners.
 
 ---
 
-## Current Stage — MVP A (Almost Complete)
+## Current Status — MVP B (Live & Authenticated)
 
-- Core fullstack setup complete (DB + API + frontend)
-- Coursework items can be stored and retrieved
-- UI styling complete
-- Accessibility checks complete
-- External API integration (random joke feature) implemented successfully
+The project has moved beyond the local MVP stage. It is now a fully deployed, production-ready web application featuring secure user authentication and persistent cloud storage.
 
-This version represents a clean, functional base with a polished UI.
+### Core Features Completed:
+
+- **Production Deployment:** Live and accessible on the web.
+- **Cloud Infrastructure:** Migrated from local storage to a hosted cloud database.
+- **Social Authentication:** Secure login via Google and GitHub OAuth.
+- **Polished UI/UX:** High-contrast accessibility checks complete with a responsive interface.
+- **Third-Party Integration:** Includes an external API integration (random joke feature) for added user delight.
 
 ---
 
 ## Tech Stack
 
-- **Frontend:** React + TypeScript
-- **Backend:** Node.js + Express
-- **Database:** SQLite3 (via Knex)
-- **Tools:** React Query, Postman, Git
+- **Frontend:** React + TypeScript (Deployed via **Vercel**)
+- **Backend:** Node.js + Express (Serverless/API handling)
+- **Database:** PostgreSQL (Hosted via **Supabase**)
+- **Authentication:** Supabase Auth (**Google & GitHub OAuth**)
+- **Tools:** React Query, Knex, Postman, Git
 
 ---
 
-## Next Steps (MVP A)
+## Future Scope / Next Steps
 
-- Final UX polish and small refinements
-- Tighten data flow where needed
+With the core infrastructure and authentication in place, the next phases of development will focus on user experience and data visualization:
 
----
-
-## Future Scope — MVP B
-
-- Add authentication (user-specific data)
-- Deploy live (likely via Render)
-- Iterate on features based on real usage
+- Add user-specific settings (e.g., dark mode preference, notification toggles)
+- Build a dashboard showing coursework completion metrics and visual progress bars
+- Enable batch editing and drag-and-drop task prioritization
 
 ---
 
 ## Notes
 
-This project is intentionally kept as an MVP:
+This project remains intentionally focused as a high-value MVP:
 
-- single data model
-- minimal features
-- built to be extended, not over-engineered early
+- Clean, single-responsibility data models
+- Scalable cloud infrastructure that avoids early over-engineering
+- Designed specifically to be easily extended with new features based on real usage
