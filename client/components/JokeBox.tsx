@@ -12,7 +12,7 @@ export default function JokeBox() {
     try {
       setIsLoading(true)
       setError('')
-...
+
       const data = await fetchRandomJoke()
       setJoke(data.joke)
     } catch (err) {
