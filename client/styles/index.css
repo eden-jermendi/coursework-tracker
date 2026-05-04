@@ -618,6 +618,7 @@ select {
 .edit-actions .action-button,
 .edit-actions .primary-button {
   height: 44px;
+  margin-top: 0;
 }
 
 .save-button {
