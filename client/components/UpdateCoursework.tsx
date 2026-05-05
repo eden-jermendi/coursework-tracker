@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, ChangeEvent } from 'react'
+import { createPortal } from 'react-dom'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { updateCoursework } from '../apis/coursework'
 import { Coursework, CourseworkData } from '../../models/coursework'
@@ -10,6 +11,7 @@ interface Props {
 
 function UpdateCoursework({ coursework, onAnnounce }: Props) {
   const [isEditing, setIsEditing] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
   const pendingFocusRef = useRef(false)
   const [formData, setFormData] = useState({
     title: coursework.title,
@@ -36,7 +38,7 @@ function UpdateCoursework({ coursework, onAnnounce }: Props) {
       queryClient.invalidateQueries({ queryKey: ['coursework'] })
       onAnnounce(`Saved changes to coursework: ${coursework.title}.`)
       pendingFocusRef.current = true
-      setIsEditing(false)
+      handleClose()
     },
     onError: () => {
       onAnnounce(`Unable to save changes to coursework: ${coursework.title}.`)
@@ -45,7 +47,12 @@ function UpdateCoursework({ coursework, onAnnounce }: Props) {
 
   useEffect(() => {
     if (isEditing) {
+      // Trigger animation after mount
+      const timer = setTimeout(() => setIsAnimating(true), 10)
       titleInputRef.current?.focus()
+      return () => clearTimeout(timer)
+    } else {
+      setIsAnimating(false)
     }
   }, [isEditing])
 
@@ -73,17 +80,20 @@ function UpdateCoursework({ coursework, onAnnounce }: Props) {
     })
   }
 
-  const handleCancel = () => {
-    setFormData({
-      title: coursework.title,
-      unit: coursework.unit,
-      status: coursework.status,
-      priority: coursework.priority,
-      due_date: coursework.due_date ?? '',
-      notes: coursework.notes ?? '',
-    })
-    pendingFocusRef.current = true
-    setIsEditing(false)
+  const handleClose = () => {
+    setIsAnimating(false)
+    // Wait for animation to finish before unmounting
+    setTimeout(() => {
+      setIsEditing(false)
+      setFormData({
+        title: coursework.title,
+        unit: coursework.unit,
+        status: coursework.status,
+        priority: coursework.priority,
+        due_date: coursework.due_date ?? '',
+        notes: coursework.notes ?? '',
+      })
+    }, 300)
   }
 
   return (
@@ -93,140 +103,143 @@ function UpdateCoursework({ coursework, onAnnounce }: Props) {
         type="button"
         aria-label={`Edit coursework: ${coursework.title}`}
         aria-expanded={isEditing}
-        aria-controls={`edit-coursework-form-${coursework.id}`}
         ref={editButtonRef}
         onClick={() => setIsEditing(true)}
       >
         Edit
       </button>
 
-      <div
-        className={`modal-overlay ${isEditing ? 'is-open' : ''}`}
-        onClick={handleCancel}
-      >
-        <section
-          className="modal-content"
-          aria-labelledby={`edit-coursework-title-${coursework.id}`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <button
-            className="modal-close-button"
-            onClick={handleCancel}
-            aria-label="Close modal"
+      {isEditing &&
+        createPortal(
+          <div
+            className={`modal-overlay ${isAnimating ? 'is-open' : ''}`}
+            onClick={handleClose}
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            <section
+              className="modal-content"
+              aria-labelledby={`edit-coursework-title-${coursework.id}`}
+              onClick={(e) => e.stopPropagation()}
             >
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-
-          <header className="section-heading form-heading">
-            <div>
-              <p className="section-label">Planner tools</p>
-              <h2 id={`edit-coursework-title-${coursework.id}`}>
-                Edit coursework
-              </h2>
-            </div>
-          </header>
-
-          <form
-            id={`edit-coursework-form-${coursework.id}`}
-            className="form"
-            onSubmit={handleSubmit}
-          >
-            <label htmlFor={`title-${coursework.id}`}>Title: </label>
-            <input
-              id={`title-${coursework.id}`}
-              ref={titleInputRef}
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              placeholder="Enter Title here"
-            />
-            <label htmlFor={`unit-${coursework.id}`}>Unit: </label>
-            <input
-              id={`unit-${coursework.id}`}
-              type="text"
-              name="unit"
-              value={formData.unit}
-              onChange={handleChange}
-              placeholder="Enter Unit here"
-            />
-
-            <label htmlFor={`status-${coursework.id}`}>Status: </label>
-            <select
-              id={`status-${coursework.id}`}
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-            >
-              <option value="To do">To do</option>
-              <option value="Draft">Draft</option>
-              <option value="Submitted">Submitted</option>
-              <option value="Need revisions">Need revisions</option>
-            </select>
-
-            <label htmlFor={`priority-${coursework.id}`}>Priority: </label>
-            <select
-              id={`priority-${coursework.id}`}
-              name="priority"
-              value={formData.priority}
-              onChange={handleChange}
-            >
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
-              <option value="Urgent">Urgent</option>
-            </select>
-
-            <label htmlFor={`due_date-${coursework.id}`}>Due date: </label>
-            <input
-              id={`due_date-${coursework.id}`}
-              type="date"
-              name="due_date"
-              value={formData.due_date}
-              onChange={handleChange}
-              placeholder="Enter Due date here"
-            />
-
-            <label htmlFor={`notes-${coursework.id}`}>Notes: </label>
-            <textarea
-              id={`notes-${coursework.id}`}
-              name="notes"
-              value={formData.notes}
-              onChange={handleChange}
-              placeholder="Enter Notes here"
-            />
-
-            <div className="edit-actions">
               <button
-                className="primary-button save-button"
-                type="submit"
-                aria-label={`Save changes to coursework: ${coursework.title}`}
+                className="modal-close-button"
+                onClick={handleClose}
+                aria-label="Close modal"
               >
-                Save entry
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
               </button>
-              <button
-                className="action-button secondary-button"
-                type="button"
-                onClick={handleCancel}
+
+              <header className="section-heading form-heading">
+                <div>
+                  <p className="section-label">Planner tools</p>
+                  <h2 id={`edit-coursework-title-${coursework.id}`}>
+                    Edit coursework
+                  </h2>
+                </div>
+              </header>
+
+              <form
+                id={`edit-coursework-form-${coursework.id}`}
+                className="form"
+                onSubmit={handleSubmit}
               >
-                Cancel
-              </button>
-            </div>
-          </form>
-        </section>
-      </div>
+                <label htmlFor={`title-${coursework.id}`}>Title: </label>
+                <input
+                  id={`title-${coursework.id}`}
+                  ref={titleInputRef}
+                  type="text"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  placeholder="Enter Title here"
+                />
+                <label htmlFor={`unit-${coursework.id}`}>Unit: </label>
+                <input
+                  id={`unit-${coursework.id}`}
+                  type="text"
+                  name="unit"
+                  value={formData.unit}
+                  onChange={handleChange}
+                  placeholder="Enter Unit here"
+                />
+
+                <label htmlFor={`status-${coursework.id}`}>Status: </label>
+                <select
+                  id={`status-${coursework.id}`}
+                  name="status"
+                  value={formData.status}
+                  onChange={handleChange}
+                >
+                  <option value="To do">To do</option>
+                  <option value="Draft">Draft</option>
+                  <option value="Submitted">Submitted</option>
+                  <option value="Need revisions">Need revisions</option>
+                </select>
+
+                <label htmlFor={`priority-${coursework.id}`}>Priority: </label>
+                <select
+                  id={`priority-${coursework.id}`}
+                  name="priority"
+                  value={formData.priority}
+                  onChange={handleChange}
+                >
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                  <option value="Urgent">Urgent</option>
+                </select>
+
+                <label htmlFor={`due_date-${coursework.id}`}>Due date: </label>
+                <input
+                  id={`due_date-${coursework.id}`}
+                  type="date"
+                  name="due_date"
+                  value={formData.due_date}
+                  onChange={handleChange}
+                  placeholder="Enter Due date here"
+                />
+
+                <label htmlFor={`notes-${coursework.id}`}>Notes: </label>
+                <textarea
+                  id={`notes-${coursework.id}`}
+                  name="notes"
+                  value={formData.notes}
+                  onChange={handleChange}
+                  placeholder="Enter Notes here"
+                />
+
+                <div className="edit-actions">
+                  <button
+                    className="primary-button save-button"
+                    type="submit"
+                    aria-label={`Save changes to coursework: ${coursework.title}`}
+                  >
+                    Save entry
+                  </button>
+                  <button
+                    className="action-button secondary-button"
+                    type="button"
+                    onClick={handleClose}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </section>
+          </div>,
+          document.body,
+        )}
     </>
   )
 }

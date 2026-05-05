@@ -67,7 +67,7 @@ export default function JokeBox() {
 
       <div className="spotify-container">
         <iframe
-          src="https://open.spotify.com/embed/playlist/37i9dQZF1DWWQRwui0ExPn?utm_source=generator"
+          src="https://open.spotify.com/embed/playlist/37i9dQZF1EIfjzgnbx4yqL?utm_source=generator"
           width="100%"
           height="152"
           frameBorder="0"
