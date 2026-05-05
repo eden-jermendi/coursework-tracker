@@ -24,15 +24,30 @@ export default function JokeBox() {
 
   return (
     <section>
-      <h2>Need a study break?</h2>
+      <div className="joke-content">
+        <h2>Need a study break?</h2>
 
-      <button type="button" onClick={handleGetJoke} disabled={isLoading}>
-        {isLoading ? 'Loading...' : 'Random Joke'}
-      </button>
+        <button type="button" onClick={handleGetJoke} disabled={isLoading}>
+          {isLoading ? 'Loading...' : 'Random Joke'}
+        </button>
 
-      {error && <p>{error}</p>}
+        {error && <p>{error}</p>}
 
-      {!error && joke && <p>{joke}</p>}
+        {!error && joke && <p>{joke}</p>}
+      </div>
+
+      <div className="spotify-container">
+        <iframe
+          style={{ borderRadius: '18px' }}
+          src="https://open.spotify.com/embed/playlist/37i9dQZF1DWWQRwui0ExPn?utm_source=generator"
+          width="100%"
+          height="152"
+          frameBorder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+          title="Spotify Study Playlist"
+        ></iframe>
+      </div>
     </section>
   )
 }

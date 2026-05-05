@@ -160,6 +160,26 @@ function Home() {
               <option value="unit-asc">Unit (A-Z)</option>
               <option value="unit-desc">Unit (Z-A)</option>
             </select>
+            <button
+              className="add-button-small"
+              onClick={() => setIsFormOpen(true)}
+              aria-label="Add new coursework"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Add Course
+            </button>
             <p className="section-meta">
               {filteredCoursework.length} item
               {filteredCoursework.length === 1 ? '' : 's'}
@@ -176,6 +196,14 @@ function Home() {
           <section className="empty-state" aria-live="polite">
             <p className="status-title">No matches found</p>
             <p>Try a different search term or clear your search.</p>
+            <div className="empty-state-actions">
+              <button
+                className="reset-button"
+                onClick={() => setSearchQuery('')}
+              >
+                Reset Search
+              </button>
+            </div>
           </section>
         ) : (
           <div className="coursework-list">
@@ -236,35 +264,37 @@ function Home() {
         )}
       </section>
 
-      <section className="form-panel" aria-labelledby="add-coursework-title">
-        <button
-          className={`toggle-form-button ${isFormOpen ? 'is-open' : ''}`}
-          onClick={() => setIsFormOpen(!isFormOpen)}
-          aria-expanded={isFormOpen}
-          aria-controls="add-coursework-container"
+      <div
+        className={`modal-overlay ${isFormOpen ? 'is-open' : ''}`}
+        onClick={() => setIsFormOpen(false)}
+      >
+        <section
+          className="modal-content"
+          aria-labelledby="add-coursework-title"
+          onClick={(e) => e.stopPropagation()}
         >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+          <button
+            className="modal-close-button"
+            onClick={() => setIsFormOpen(false)}
+            aria-label="Close modal"
           >
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-          {isFormOpen ? 'Cancel adding' : 'Add new coursework'}
-        </button>
-        <div
-          id="add-coursework-container"
-          className={`form-container ${isFormOpen ? 'is-open' : ''}`}
-        >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
           <AddCoursework onAnnounce={handleSuccess} />
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   )
 }
