@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { fetchRandomJoke } from '../apis/jokes'
 import { playLaughSound } from '../utils/sound.ts'
 
@@ -6,9 +6,19 @@ export default function JokeBox() {
   const [joke, setJoke] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [isMuted, setIsMuted] = useState(() => {
+    const saved = localStorage.getItem('joke_audio_muted')
+    return saved === 'true'
+  })
+
+  useEffect(() => {
+    localStorage.setItem('joke_audio_muted', isMuted.toString())
+  }, [isMuted])
 
   async function handleGetJoke() {
-    playLaughSound()
+    if (!isMuted) {
+      playLaughSound()
+    }
     try {
       setIsLoading(true)
       setError('')
@@ -27,9 +37,28 @@ export default function JokeBox() {
       <div className="joke-content">
         <h2>Need a study break?</h2>
 
-        <button type="button" onClick={handleGetJoke} disabled={isLoading}>
-          {isLoading ? 'Loading...' : 'Random Joke'}
-        </button>
+        <div className="joke-actions">
+          <button type="button" onClick={handleGetJoke} disabled={isLoading}>
+            {isLoading ? 'Loading...' : 'Random Joke'}
+          </button>
+
+          <button
+            type="button"
+            className={`mute-button ${isMuted ? 'is-muted' : ''}`}
+            onClick={() => setIsMuted(!isMuted)}
+            aria-label={isMuted ? 'Unmute joke sounds' : 'Mute joke sounds'}
+          >
+            <img
+              src={
+                isMuted
+                  ? '/images/volume/volume-off.svg'
+                  : '/images/volume/volume-2.svg'
+              }
+              alt=""
+              className="mute-icon"
+            />
+          </button>
+        </div>
 
         {error && <p>{error}</p>}
 
@@ -38,7 +67,6 @@ export default function JokeBox() {
 
       <div className="spotify-container">
         <iframe
-          style={{ borderRadius: '18px' }}
           src="https://open.spotify.com/embed/playlist/37i9dQZF1DWWQRwui0ExPn?utm_source=generator"
           width="100%"
           height="152"

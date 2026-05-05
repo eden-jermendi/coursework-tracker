@@ -252,6 +252,54 @@ select {
 .spotify-container {
   flex: 0 0 320px;
   min-width: 300px;
+  border-radius: 18px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.joke-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.joke-actions button:first-child {
+  min-width: 145px;
+  justify-content: center;
+}
+
+.mute-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--surface-line);
+  background: transparent;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: all 140ms ease;
+}
+
+.mute-button:hover {
+  background: rgba(124, 95, 67, 0.08);
+  border-color: var(--button-main);
+  color: var(--button-main);
+  transform: scale(1.05);
+}
+
+.mute-button.is-muted {
+  color: var(--button-danger);
+  border-color: var(--button-danger);
+}
+
+.mute-icon {
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  filter: brightness(0) invert(1);
 }
 
 @media (max-width: 768px) {
