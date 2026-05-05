@@ -18,17 +18,19 @@ The focus is on clarity and functionality over complexity, offering a streamline
 
 ---
 
-## Current Status — MVP B (Live & Authenticated)
+## Current Status — UI/UX Polish Phase (Completed)
 
-The project has moved beyond the local MVP stage. It is now a fully deployed, production-ready web application featuring secure user authentication and persistent cloud storage.
+The project has moved beyond the local MVP stage. It is now a fully deployed, production-ready web application featuring secure user authentication, persistent cloud storage, and a highly refined interface.
 
 ### Core Features Completed:
 
 - **Production Deployment:** Live and accessible on the web.
-- **Cloud Infrastructure:** Migrated from local storage to a hosted cloud database.
+- **Cloud Infrastructure:** Persistent storage via Supabase PostgreSQL.
 - **Social Authentication:** Secure login via Google and GitHub OAuth.
-- **Polished UI/UX:** High-contrast accessibility checks complete with a responsive interface.
-- **Third-Party Integration:** Includes an external API integration (random joke feature) for added user delight.
+- **Form Modal Overlays:** All data entry (Add/Edit) uses React Portals for a professional, full-screen experience.
+- **Dark Mode:** Persistent theme toggle with an "Academic Noir" palette.
+- **Audio Controls:** Randomized joke laughter with a persistent mute toggle and sound effects.
+- **Spotify Integration:** Embedded study playlist with a refined, responsive layout.
 
 ---
 
@@ -38,17 +40,19 @@ The project has moved beyond the local MVP stage. It is now a fully deployed, pr
 - **Backend:** Node.js + Express (Serverless/API handling)
 - **Database:** PostgreSQL (Hosted via **Supabase**)
 - **Authentication:** Supabase Auth (**Google & GitHub OAuth**)
-- **Tools:** React Query, Knex, Postman, Git
+- **State Management:** React Query (TanStack Query)
+- **Styling:** Vanilla CSS with custom theme variables
 
 ---
 
 ## Future Scope / Next Steps
 
-With the core infrastructure and authentication in place, the next phases of development will focus on user experience and data visualization:
+With the core infrastructure and UI polish in place, the next phases will focus on total consistency and advanced integration:
 
-- Add user-specific settings (e.g., dark mode preference, notification toggles)
-- Build a dashboard showing coursework completion metrics and visual progress bars
-- Enable batch editing and drag-and-drop task prioritization
+- **UI Refinement:** Identify and fix minor visual bugs across desktop and mobile web versions.
+- **Spotify Web Playback SDK:** Investigate custom player integration for native volume control and deeper music management.
+- **Data Visualization:** Build a dashboard showing coursework completion metrics and visual progress bars.
+- **Task Management:** Implement a Kanban-style view for more intuitive task prioritization.
 
 ---
 
