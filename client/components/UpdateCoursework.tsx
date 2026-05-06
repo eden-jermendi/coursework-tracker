@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { updateCoursework } from '../apis/coursework'
 import { Coursework, CourseworkData } from '../../models/coursework'
+import { useFocusTrap } from '../utils/accessibility'
 
 interface Props {
   coursework: Coursework
@@ -23,8 +24,27 @@ function UpdateCoursework({ coursework, onAnnounce }: Props) {
   })
   const editButtonRef = useRef<HTMLButtonElement | null>(null)
   const titleInputRef = useRef<HTMLInputElement | null>(null)
+  const modalRef = useRef<HTMLElement | null>(null)
 
   const queryClient = useQueryClient()
+
+  const handleClose = () => {
+    setIsAnimating(false)
+    // Wait for animation to finish before unmounting
+    setTimeout(() => {
+      setIsEditing(false)
+      setFormData({
+        title: coursework.title,
+        unit: coursework.unit,
+        status: coursework.status,
+        priority: coursework.priority,
+        due_date: coursework.due_date ?? '',
+        notes: coursework.notes ?? '',
+      })
+    }, 300)
+  }
+
+  useFocusTrap(modalRef, isEditing, () => handleClose())
 
   const updateCourseworkMutation = useMutation({
     mutationFn: ({
@@ -51,8 +71,6 @@ function UpdateCoursework({ coursework, onAnnounce }: Props) {
       const timer = setTimeout(() => setIsAnimating(true), 10)
       titleInputRef.current?.focus()
       return () => clearTimeout(timer)
-    } else {
-      setIsAnimating(false)
     }
   }, [isEditing])
 
@@ -80,22 +98,6 @@ function UpdateCoursework({ coursework, onAnnounce }: Props) {
     })
   }
 
-  const handleClose = () => {
-    setIsAnimating(false)
-    // Wait for animation to finish before unmounting
-    setTimeout(() => {
-      setIsEditing(false)
-      setFormData({
-        title: coursework.title,
-        unit: coursework.unit,
-        status: coursework.status,
-        priority: coursework.priority,
-        due_date: coursework.due_date ?? '',
-        notes: coursework.notes ?? '',
-      })
-    }, 300)
-  }
-
   return (
     <>
       <button
@@ -111,14 +113,13 @@ function UpdateCoursework({ coursework, onAnnounce }: Props) {
 
       {isEditing &&
         createPortal(
-          <div
-            className={`modal-overlay ${isAnimating ? 'is-open' : ''}`}
-            onClick={handleClose}
-          >
+          <div className={`modal-overlay ${isAnimating ? 'is-open' : ''}`}>
             <section
+              ref={modalRef}
               className="modal-content"
+              role="dialog"
+              aria-modal="true"
               aria-labelledby={`edit-coursework-title-${coursework.id}`}
-              onClick={(e) => e.stopPropagation()}
             >
               <button
                 className="modal-close-button"

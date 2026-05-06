@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getCoursework } from '../apis/coursework'
 import AddCoursework from './AddCoursework'
 import DeleteCoursework from './DeleteCoursework'
 import UpdateCoursework from './UpdateCoursework'
 import JokeBox from './JokeBox'
+import { useFocusTrap } from '../utils/accessibility'
 
 type SortOption =
   | 'priority-desc'
@@ -30,6 +31,15 @@ function Home() {
   const [notification, setNotification] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState<SortOption>('priority-desc')
   const [searchQuery, setSearchQuery] = useState('')
+  const addButtonRef = useRef<HTMLButtonElement | null>(null)
+  const modalRef = useRef<HTMLElement | null>(null)
+
+  const handleCloseForm = () => {
+    setIsFormOpen(false)
+    addButtonRef.current?.focus()
+  }
+
+  useFocusTrap(modalRef, isFormOpen, handleCloseForm)
 
   const showNotification = (message: string) => {
     setNotification(message)
@@ -106,7 +116,7 @@ function Home() {
   })
 
   return (
-    <div className="dashboard-layout">
+    <div className="dashboard-layout" id="main-content">
       <p
         className="sr-only"
         role="status"
@@ -122,11 +132,15 @@ function Home() {
         </div>
       )}
 
+      <a href="#coursework-list" className="skip-link">
+        Skip Spotify player
+      </a>
       <aside className="joke-panel">
         <JokeBox />
       </aside>
 
       <section
+        id="coursework-list"
         className="coursework-panel"
         aria-labelledby="coursework-section-title"
       >
@@ -164,6 +178,7 @@ function Home() {
               className="add-button-small"
               onClick={() => setIsFormOpen(true)}
               aria-label="Add new coursework"
+              ref={addButtonRef}
             >
               <svg
                 width="16"
@@ -264,18 +279,17 @@ function Home() {
         )}
       </section>
 
-      <div
-        className={`modal-overlay ${isFormOpen ? 'is-open' : ''}`}
-        onClick={() => setIsFormOpen(false)}
-      >
+      <div className={`modal-overlay ${isFormOpen ? 'is-open' : ''}`}>
         <section
+          ref={modalRef}
           className="modal-content"
+          role="dialog"
+          aria-modal="true"
           aria-labelledby="add-coursework-title"
-          onClick={(e) => e.stopPropagation()}
         >
           <button
             className="modal-close-button"
-            onClick={() => setIsFormOpen(false)}
+            onClick={handleCloseForm}
             aria-label="Close modal"
           >
             <svg
