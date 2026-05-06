@@ -69,7 +69,6 @@ function UpdateCoursework({ coursework, onAnnounce }: Props) {
     if (isEditing) {
       // Trigger animation after mount
       const timer = setTimeout(() => setIsAnimating(true), 10)
-      titleInputRef.current?.focus()
       return () => clearTimeout(timer)
     }
   }, [isEditing])

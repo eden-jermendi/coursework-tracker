@@ -138,7 +138,7 @@ select {
   background: var(--button-main);
   color: white;
   padding: 12px 24px;
-  z-index: 5000;
+  z-index: 1500;
   border-radius: 0 0 12px 12px;
   text-decoration: none !important;
   font-weight: 700;
