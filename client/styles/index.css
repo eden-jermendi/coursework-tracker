@@ -130,6 +130,27 @@ select {
   border: 0;
 }
 
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--button-main);
+  color: white;
+  padding: 12px 24px;
+  z-index: 5000;
+  border-radius: 0 0 12px 12px;
+  text-decoration: none !important;
+  font-weight: 700;
+  transition: top 0.2s ease;
+  box-shadow: var(--shadow-soft);
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: none;
+}
+
 .app-shell {
   max-width: 1120px;
   margin: 0 auto;

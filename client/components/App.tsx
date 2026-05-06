@@ -41,6 +41,9 @@ function App() {
 
   return (
     <div className="app-shell">
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <header className="page-header">
         <div className="header-top">
           <p className="page-kicker">MVP A + Auth</p>
